@@ -1,0 +1,9 @@
+{
+  "firebase_api_key": "AIzaSy...",
+  "firebase_refresh_token": "AMf-vBw...",
+  "firebase_uid": "your-firebase-uid",
+  "firebase_rtdb_url": "https://your-project-id.firebaseio.com",
+  "ha_url": "http://192.168.x.x:8123",
+  "ha_token": "your-long-lived-ha-token",
+  "daily_goal_ml": 2000
+}
