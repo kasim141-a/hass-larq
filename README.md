@@ -57,19 +57,26 @@ You need to sniff your Firebase refresh token from the LARQ iOS app.
    /config/custom_components/larq/
    ```
 
-2. Copy `larq_battery_read.py` is already inside the component folder — it needs `bleak` installed:
+2. `larq_battery_read.py` is already inside the component folder — install its dependency:
    ```bash
    python3 -m venv /config/larq_venv2
    /config/larq_venv2/bin/pip install bleak
    ```
 
-3. Add to `configuration.yaml`:
+3. Copy the LARQ icon so it appears on entity cards:
+   ```bash
+   mkdir -p /config/www
+   cp assets/larq-icon.png /config/www/larq-icon.png
+   ```
+   > In HA, files under `/config/www/` are served at `/local/` — so the icon becomes available at `/local/larq-icon.png`.
+
+4. Add to `configuration.yaml`:
    ```yaml
    sensor:
      - platform: larq
    ```
 
-4. Restart Home Assistant.
+5. Restart Home Assistant.
 
 ---
 
@@ -94,20 +101,35 @@ You need to sniff your Firebase refresh token from the LARQ iOS app.
 
 ## Dashboard card
 
-Add a gauge card to your HA dashboard (Edit → Add Card → Manual):
+Add to your HA dashboard (Edit → Add Card → Manual):
 
 ```yaml
-type: gauge
-name: Hydration Today
-entity: sensor.larq_water_today
-min: 0
-max: 2900
-unit: mL
-needle: true
-severity:
-  green: 2000
-  yellow: 1000
-  red: 0
+type: vertical-stack
+cards:
+  - type: gauge
+    name: Hydration Today
+    entity: sensor.larq_water_today
+    min: 0
+    max: 2900
+    unit: mL
+    needle: true
+    severity:
+      green: 2000
+      yellow: 1000
+      red: 0
+  - type: entities
+    entities:
+      - entity: sensor.larq_water_today
+        name: Water Today
+        icon: mdi:cup-water
+      - entity: sensor.larq_last_drink
+        name: Last Drink
+        icon: mdi:water-clock
+      - entity: sensor.larq_daily_goal
+        name: Daily Goal
+        icon: mdi:cup-water
+      - entity: sensor.larq_battery
+        name: Bottle Battery
 ```
 
 ---
